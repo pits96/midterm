@@ -13,11 +13,13 @@
 <div class="container-fluid">
 <form method="post" action="#">
 <label for="name">Name: </label>
-<input type="text" name="name" id="name" class="form-group"><br>
+<input type="text" name="name" id="name" class="form-group" <check if="{{!empty(@SESSION.name)}}">value="{{@SESSION.name}}"</check>value=""><br>
+    <h4 class="text-danger font-weight-bolder">{{@errorname}}</h4>
     <p>Check all that apply:</p>
     <repeat group="{{@options}}" value="{{@choices}}">
-        <input type="checkbox" name="answers[]" value="{{@choices}}">{{@choices}}<br>
+        <input type="checkbox" name="answers[]" value="{{@choices}}"<check if='{{!empty(@SESSION.choice)&&in_array("@choices",@SESSION.choice)}}'>checked</check>>{{@choices}}<br>
     </repeat>
+    <h4 class="text-danger">{{@errorcheck}}</h4>
     <button type="submit">Submit</button>
 </form>
 </div>

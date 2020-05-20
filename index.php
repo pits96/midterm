@@ -17,26 +17,36 @@ $f3->route('GET|POST /survey',function ($f3){
     $view = new Template();
     $f3->set('options',['Today is a good day!','Calm and Collected','No need to rush']);
     if($_SERVER['REQUEST_METHOD']=='POST') {
-        $_SESSION['name'] = $_POST['name'];
-        if(!empty($_POST['answers'])){
-//        foreach ($_POST['answers'] as $value){
-//            $choicestrng.=$value.", ";
-//        }
+        if(empty($_POST['name'])){
+            $f3->set('errorname',"Please enter a name.");
+        }
+        else {
+            $_SESSION['name'] = $_POST['name'];
+        }
+        if(empty($_POST['answers'])){
+            $f3->set('errorcheck',"Please select one of the options.");
+        }
+        else{
+            $_SESSION['choice']=$_POST['answers'];
             $choicestrng="";
             for($i=0; $i<sizeof($_POST['answers'])-1;$i++){
                 $choicestrng.=$_POST["answers"][$i].", ";
             }
             $choicestrng.=$_POST['answers'][sizeof($_POST['answers'])-1];
+            $_SESSION['answersString'] = $choicestrng;
+
         }
-        $_SESSION['answersString'] = $choicestrng;
-        $f3->reroute('summary');
+        if(!empty($_POST['name']&&!empty($_POST['answers']))) {
+            $f3->reroute('summary');
+        }
     }
+
         echo $view->render('views/survey.html');
 
 });
 $f3->route('GET|POST /summary',function (){
     $view = new Template();
     echo $view->render('views/summary.html');
-//    session_destroy();
+    session_destroy();
 });
 $f3->run();
