@@ -13,10 +13,10 @@
 <div class="container-fluid">
 <form method="post" action="#">
 <label for="name">Name: </label>
-<input type="text" name="inputname" id="name" class="form-group"><br>
+<input type="text" name="name" id="name" class="form-group"><br>
     <p>Check all that apply:</p>
     <repeat group="{{@options}}" value="{{@choices}}">
-        <input type="checkbox" value="{{@choices}}" name="choice[]">{{@choices}}<br>
+        <input type="checkbox" name="answers[]" value="{{@choices}}">{{@choices}}<br>
     </repeat>
     <button type="submit">Submit</button>
 </form>
